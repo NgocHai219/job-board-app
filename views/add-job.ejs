@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Việc Làm Mới</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f1f5f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .form-container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { text-align: center; color: #2563eb; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        button:hover { background: #1d4ed8; }
+        .back-link { display: block; text-align: center; margin-top: 15px; color: #64748b; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Tạo Tin Tuyển Dụng</h2>
+        <form action="/add" method="POST">
+            <input type="text" name="title" placeholder="Ví dụ: Senior Java Developer" required>
+            <input type="text" name="company" placeholder="Tên công ty của bạn" required>
+            <input type="text" name="salary" placeholder="Mức lương (ví dụ: 1000$ - 2000$)" required>
+            <button type="submit">Xác nhận Đăng tin</button>
+        </form>
+        <a href="/" class="back-link">← Quay lại trang chủ</a>
+    </div>
+</body>
+</html>

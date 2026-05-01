@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cổng Tuyển Dụng Tech</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --text-dark: #1e293b;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0; padding: 40px; 
+        }
+
+        .container { max-width: 800px; margin: auto; }
+
+        .header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 30px; 
+        }
+
+        h1 { color: var(--primary-color); margin: 0; }
+
+        .btn-add {
+            background-color: var(--primary-color);
+            color: white; padding: 10px 20px;
+            text-decoration: none; border-radius: 8px;
+            font-weight: bold; transition: 0.3s;
+        }
+
+        .btn-add:hover { background-color: #1d4ed8; transform: translateY(-2px); }
+
+        .job-grid { display: grid; gap: 20px; }
+
+        .job-card { 
+            background: white; padding: 20px; 
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            border-left: 6px solid var(--primary-color);
+            transition: 0.3s;
+        }
+
+        .job-card:hover { transform: scale(1.02); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+
+        .job-card h3 { margin-top: 0; color: #111827; }
+        .company { color: #64748b; font-weight: 500; }
+        .salary { color: #059669; font-weight: bold; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Tuyển Dụng IT</h1>
+            <a href="/add" class="btn-add">+ Đăng tin ngay</a>
+        </div>
+
+        <div class="job-grid">
+            <% jobList.forEach(job => { %>
+                <div class="job-card">
+                    <h3><%= job.title %></h3>
+                    <p class="company">🏢 <%= job.company %></p>
+                    <p class="salary">💰 <%= job.salary %></p>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</body>
+</html>
