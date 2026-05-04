@@ -9,6 +9,7 @@
             --primary-color: #2563eb;
             --bg-color: #f8fafc;
             --text-dark: #1e293b;
+            --danger-color: #ef4444;
         }
 
         body { 
@@ -22,52 +23,91 @@
 
         .header { 
             display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 30px; 
+            margin-bottom: 30px; background: white; padding: 20px; border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        h1 { color: var(--primary-color); margin: 0; }
+        .user-controls { display: flex; align-items: center; gap: 15px; }
 
-        .btn-add {
-            background-color: var(--primary-color);
-            color: white; padding: 10px 20px;
-            text-decoration: none; border-radius: 8px;
-            font-weight: bold; transition: 0.3s;
+        h1 { color: var(--primary-color); margin: 0; font-size: 1.5rem; }
+
+        .btn {
+            padding: 8px 16px; text-decoration: none; border-radius: 8px;
+            font-weight: bold; transition: 0.3s; font-size: 0.9rem;
         }
 
-        .btn-add:hover { background-color: #1d4ed8; transform: translateY(-2px); }
+        .btn-add { background-color: var(--primary-color); color: white; }
+        .btn-add:hover { background-color: #1d4ed8; }
+
+        .btn-logout { color: var(--danger-color); border: 1px solid var(--danger-color); }
+        .btn-logout:hover { background: var(--danger-color); color: white; }
+
+        .auth-links a { text-decoration: none; color: var(--primary-color); font-weight: 500; }
 
         .job-grid { display: grid; gap: 20px; }
-
         .job-card { 
-            background: white; padding: 20px; 
-            border-radius: 12px;
+            background: white; padding: 20px; border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
             border-left: 6px solid var(--primary-color);
-            transition: 0.3s;
+            transition: 0.3s; position: relative;
         }
-
-        .job-card:hover { transform: scale(1.02); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
-
+        .job-card:hover { transform: scale(1.01); }
         .job-card h3 { margin-top: 0; color: #111827; }
         .company { color: #64748b; font-weight: 500; }
-        .salary { color: #059669; font-weight: bold; font-size: 1.1em; }
+        .salary { color: #059669; font-weight: bold; }
+        
+        .role-badge {
+            font-size: 0.7rem; background: #e2e8f0; padding: 2px 8px;
+            border-radius: 999px; text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>🚀 Tuyển Dụng IT</h1>
-            <a href="/add" class="btn-add">+ Đăng tin ngay</a>
+            
+            <div class="user-controls">
+                <% if (user) { %>
+                    <!-- Hiển thị khi đã đăng nhập -->
+                    <div>
+                        <span class="role-badge"><%= user.role === 'employer' ? 'Nhà tuyển dụng' : 'Ứng viên' %></span>
+                        <strong><%= user.fullName %></strong>
+                    </div>
+                    
+                    <% if (user.role === 'employer') { %>
+                        <a href="/add" class="btn btn-add">+ Đăng tin</a>
+                    <% } %>
+                    
+                    <a href="/logout" class="btn btn-logout">Đăng xuất</a>
+                <% } else { %>
+                    <!-- Hiển thị khi chưa đăng nhập -->
+                    <div class="auth-links">
+                        <a href="/login">Đăng nhập</a> | 
+                        <a href="/register">Đăng ký</a>
+                    </div>
+                <% } %>
+            </div>
         </div>
 
         <div class="job-grid">
-            <% jobList.forEach(job => { %>
-                <div class="job-card">
-                    <h3><%= job.title %></h3>
-                    <p class="company">🏢 <%= job.company %></p>
-                    <p class="salary">💰 <%= job.salary %></p>
-                </div>
-            <% }) %>
+            <% if (jobList.length > 0) { %>
+                <% jobList.forEach(job => { %>
+                    <div class="job-card">
+                        <h3><%= job.title %></h3>
+                        <p class="company">🏢 <%= job.company %></p>
+                        <p class="salary">💰 <%= job.salary %></p>
+                        
+                        <% if (user && user.role === 'candidate') { %>
+                            <button class="btn btn-add" style="margin-top: 10px; width: 100%; border: none; cursor: pointer;">
+                                Ứng tuyển ngay
+                            </button>
+                        <% } %>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p style="text-align: center; color: #64748b;">Chưa có tin tuyển dụng nào.</p>
+            <% } %>
         </div>
     </div>
 </body>

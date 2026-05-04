@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Tuyển Dụng IT</title>
+    <style>
+       :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; margin: 0;
+        }
+
+        .auth-card {
+            background: white; padding: 40px;
+            border-radius: 15px; /* Bo góc lớn giống hình bạn gửi */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); /* Đổ bóng nhẹ */
+            width: 100%; max-width: 380px;
+        }
+
+        .logo { 
+            font-size: 1.5rem; font-weight: bold; color: var(--primary-color);
+            text-align: center; margin-bottom: 30px; display: flex;
+            justify-content: center; align-items: center; gap: 10px;
+        }
+
+        input, select {
+            width: 100%; padding: 12px; margin-bottom: 15px;
+            border: 1px solid #e2e8f0; border-radius: 10px;
+            box-sizing: border-box; font-size: 0.95rem;
+            background-color: #fcfcfc;
+        }
+
+        button {
+            width: 100%; padding: 12px; background-color: var(--primary-color);
+            color: white; border: none; border-radius: 10px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .footer { text-align: center; margin-top: 20px; font-size: 0.9rem; color: #64748b; }
+        .footer a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="auth-card">
+        <div class="logo">🚀 Tuyển Dụng IT</div>
+        
+        <form action="/login" method="POST">
+            <input type="text" name="username" placeholder="Tên đăng nhập" required>
+            <input type="password" name="password" placeholder="Mật khẩu" required>
+            <button type="submit">Đăng nhập</button>
+        </form>
+
+        <div class="footer">
+            Chưa có tài khoản? <a href="/register">Đăng ký ngay</a>
+        </div>
+    </div>
+</body>
+</html>
