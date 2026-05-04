@@ -93,15 +93,44 @@
         <div class="job-grid">
             <% if (jobList.length > 0) { %>
                 <% jobList.forEach(job => { %>
-                    <div class="job-card">
+                   <div class="job-card">
                         <h3><%= job.title %></h3>
                         <p class="company">🏢 <%= job.company %></p>
                         <p class="salary">💰 <%= job.salary %></p>
-                        
+
+                        <!-- Phần hiển thị dành riêng cho Nhà tuyển dụng -->
+                        <% if (user && user.role === 'employer') { %>
+                            <div style="margin-top: 15px; padding: 12px; background: #f1f5f9; border-radius: 8px;">
+                                <strong style="font-size: 0.85rem; color: #475569; display: block; margin-bottom: 8px;">
+                                    📢 Ứng viên quan tâm (<%= job.applicants.length %>)
+                                </strong>
+                                
+                                <ul style="list-style: none; padding: 0; margin: 0;">
+                                    <% if (job.applicants.length > 0) { %>
+                                        <% job.applicants.forEach(applicant => { %>
+                                            <!-- Kiểm tra applicant tồn tại để tránh lỗi crash trang -->
+                                            <% if (applicant) { %>
+                                                <li style="font-size: 0.85rem; padding: 4px 0; border-bottom: 1px solid #e2e8f0; last-child: border-none;">
+                                                    <span style="color: var(--primary-color);">●</span> 
+                                                    <strong><%= applicant.fullName %></strong> 
+                                                    <span style="color: #64748b; font-size: 0.8rem;">(@<%= applicant.username %>)</span>
+                                                </li>
+                                            <% } %>
+                                        <% }) %>
+                                    <% } else { %>
+                                        <li style="font-size: 0.8rem; color: #94a3b8; font-style: italic;">Chưa có ai ứng tuyển</li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                        <% } %>
+
+                        <!-- Nút ứng tuyển cho Candidate (giữ nguyên) -->
                         <% if (user && user.role === 'candidate') { %>
-                            <button class="btn btn-add" style="margin-top: 10px; width: 100%; border: none; cursor: pointer;">
-                                Ứng tuyển ngay
-                            </button>
+                            <form action="/apply/<%= job._id %>" method="POST">
+                                <button type="submit" class="btn btn-add" style="width: 100%; border: none; cursor: pointer; margin-top: 10px;">
+                                    Ứng tuyển ngay
+                                </button>
+                            </form>
                         <% } %>
                     </div>
                 <% }) %>

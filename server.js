@@ -1,38 +1,37 @@
 const express = require('express');
 const path = require('path');
-const app = express();
-const PORT = 3000;
+const connectDB = require('./config/db');
+const logger = require('./middleware/logger');
+const jobRoutes = require('./routes/jobRoutes');
+const session = require('express-session');
+const authRoutes = require('./routes/authRoutes');
 
-app.use(express.urlencoded({ extended: true}));
+const app = express();
+
+connectDB();
 
 app.set('views', path.join(__dirname, 'views'));
 app.set ('view engine' , 'ejs');
 
-let jobs = [
-    {id : 1, title: "Lap trinh vien NodeJS", company: "Tech ABC" , salary: "20-30M"},
-    {id : 2, title: "Thiet ke UI/UX", company: "Greative Studio", salary: "15-25M"}
-];
+app.use(session({
+    secret: 'job-board-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {secure: false, maxAge: 3600000}
+}));
 
-app.get('/', (req, res) => {
-    res.render('index', {jobList: jobs});
-
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;
+    next();
 });
+app.use(express.json());
+app.use(express.urlencoded({ extended: false}));
+app.use(logger);
 
-app.get('/add', (req, res) => {
-    res.render('add-job');
-});
+app.use('/', authRoutes);
+app.use('/', jobRoutes);
 
-app.post('/add', (req, res) => {
-    const newJob = {
-        id: jobs.length +1,
-        title: req.body.title,
-        company: req.body.company,
-        salary: req.body.salary
-    };
-    jobs.push(newJob);
-    res.redirect('/');
-});
-
+const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Sever dang chay tai http://localhost:${PORT}`);
 });
